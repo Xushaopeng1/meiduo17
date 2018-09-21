@@ -27,7 +27,7 @@ SECRET_KEY = 'rxm=s_-q^9v09)-rk54t7bi0yp_x&*f=3pw!c7c$oj_g(+)7it'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['api.meiduo.site']
+ALLOWED_HOSTS = ['api.meiduo.site', '127.0.0.1', 'localhost', 'www.meiduo.site']
 
 
 # Application definition
@@ -232,3 +232,13 @@ AUTHENTICATION_BACKENDS = [
 QQ_CLIENT_ID = '101474184'
 QQ_CLIENT_SECRET = 'c6ce949e04e12ecc909ae6a8b09b637c'
 QQ_REDIRECT_URI = 'http://www.meiduo.site:8080/oauth_callback.html'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 25
+#发送邮件的邮箱
+EMAIL_HOST_USER = 'xsp1995812@163.com'
+#在邮箱中设置的客户端授权密码
+EMAIL_HOST_PASSWORD = '1332262753XAP'
+#收件人看到的发件人
+EMAIL_FROM = '美多商城<xsp1995812@163.com>'
