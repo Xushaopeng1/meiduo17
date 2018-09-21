@@ -1,4 +1,6 @@
 import re
+
+from django.conf import settings
 from django_redis import get_redis_connection
 
 from rest_framework import serializers
@@ -7,7 +9,7 @@ from rest_framework_jwt.settings import api_settings
 from celery_tasks.email.tasks import send_email
 from users.models import User
 
-
+from itsdangerous import TimedJSONWebSignatureSerializer as TJS
 '''
 username	str	是	用户名
 password	str	是	密码
@@ -139,3 +141,24 @@ class EmailSerializer(serializers.ModelSerializer):
         #发送验证邮件
         send_email.delay(email,verify_url)
         return instance
+
+class VerifyEmailSerializer(serializers.Serializer):
+
+    token = serializers.CharField(write_only=True)
+    def validate(self, attrs):
+        #token解密
+        tjs = TJS(settings.SECRET_KEY,300)
+        try:
+            data = tjs.loads(attrs['token'])
+        except:
+            raise serializers.ValidationError('错误的token')
+
+        if not data:
+            raise serializers.ValidationError('token')
+        attrs['data'] = data
+        return attrs
+
+
+
+
+
